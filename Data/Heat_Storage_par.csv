@@ -1,0 +1,12 @@
+﻿Parameter;Value
+Capital_cost;410
+OM_cost;0.0007
+Charging_eff;1
+Discharging_eff;1
+Linear_Losses;0.021
+Charging_lim;1
+Discharging_lim;1
+Min_charge;0.1
+Max_charge;1
+Depth_of_discharge;1
+Lifetime;30

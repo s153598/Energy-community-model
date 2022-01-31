@@ -1,0 +1,7 @@
+Parameter,Value
+Charging_eff,0.98
+Discharging_eff,0.97
+Charging_lim,1
+Discharging_lim,0.5
+Min_charge,0.1
+Max_charge,1

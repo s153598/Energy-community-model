@@ -1,0 +1,335 @@
+library(readxl)
+library(openxlsx)
+library(xlsx)
+demwind= read_excel("C:/Users/jonas/OneDrive/Documents/Sustainable Energy/Thesis/Energy_Community_Model/Data/EV_Profiles.xlsx")
+demwind<-demwind[rep(seq_len(nrow(demwind)), each = 24), ]
+write.xlsx(demwind, file ="C:/Users/jonas/OneDrive/Documents/Sustainable Energy/Thesis/Energy_Community_Model/Data/EV_cons.xlsx", sheetName = "Sheet1", 
+           col.names = TRUE, row.names = TRUE, append = FALSE)
+
+for (i in 1:24){
+  nam <- paste("Results", i, sep = "")
+  assign(nam,read.xlsx("C:/Users/jonas/OneDrive/Documents/Sustainable Energy/Thesis/Energy_Community_Model/Results1.xlsx",i))
+}
+
+dat<-read.csv("C:/Users/jonas/OneDrive/Documents/Sustainable Energy/Thesis/Energy_Community_Model/EV_demand.csv")
+
+
+Cap_PV<-matrix(0,8760,9)
+Cap_PV[,1]<-Results1[,1][which(Results1[,2]=="p1_apNeh_iM_aM_v0(7)")]
+Cap_PV[,2]<-Results1[,1][which(Results1[,2]=="p1_apNeh_iM_aM_v0(13)")]
+Cap_PV[,3]<-Results1[,1][which(Results1[,2]=="p1_apNeh_iM_aM_v0(19)")]
+Cap_PV[,4]<-Results1[,1][which(Results1[,2]=="p2_apNeh_iX_aX_v0(1)")]
+Cap_PV[,5]<-Results1[,1][which(Results1[,2]=="p2_apNeh_iX_aX_v0(5)")]
+Cap_PV[,6]<-Results1[,1][which(Results1[,2]=="p2_apNeh_iX_aX_v0(7)")]
+Cap_PV[,7]<-Results1[,1][which(Results1[,2]=="p4_apNeh_iX_aX_v0(8)")]
+Cap_PV[,8]<-Results1[,1][which(Results1[,2]=="p4_apNeh_iX_aX_v0(20)")]
+Cap_PV[,9]<-Results1[,1][which(Results1[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(Cap_PV)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                      "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                      "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+Cap_BT<-matrix(0,8760,9)
+Cap_BT[,1]<-Results2[,1][which(Results2[,2]=="p1_apNeh_iM_aM_v0(7)")]
+Cap_BT[,2]<-Results2[,1][which(Results2[,2]=="p1_apNeh_iM_aM_v0(13)")]
+Cap_BT[,3]<-Results2[,1][which(Results2[,2]=="p1_apNeh_iM_aM_v0(19)")]
+Cap_BT[,4]<-Results2[,1][which(Results2[,2]=="p2_apNeh_iX_aX_v0(1)")]
+Cap_BT[,5]<-Results2[,1][which(Results2[,2]=="p2_apNeh_iX_aX_v0(5)")]
+Cap_BT[,6]<-Results2[,1][which(Results2[,2]=="p2_apNeh_iX_aX_v0(7)")]
+Cap_BT[,7]<-Results2[,1][which(Results2[,2]=="p4_apNeh_iX_aX_v0(8)")]
+Cap_BT[,8]<-Results2[,1][which(Results2[,2]=="p4_apNeh_iX_aX_v0(20)")]
+Cap_BT[,9]<-Results2[,1][which(Results2[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(Cap_BT)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+Cap_EV<-matrix(0,8760,9)
+Cap_EV[,1]<-Results3[,1][which(Results3[,2]=="p1_apNeh_iM_aM_v0(7)")]
+Cap_EV[,2]<-Results3[,1][which(Results3[,2]=="p1_apNeh_iM_aM_v0(13)")]
+Cap_EV[,3]<-Results3[,1][which(Results3[,2]=="p1_apNeh_iM_aM_v0(19)")]
+Cap_EV[,4]<-Results3[,1][which(Results3[,2]=="p2_apNeh_iX_aX_v0(1)")]
+Cap_EV[,5]<-Results3[,1][which(Results3[,2]=="p2_apNeh_iX_aX_v0(5)")]
+Cap_EV[,6]<-Results3[,1][which(Results3[,2]=="p2_apNeh_iX_aX_v0(7)")]
+Cap_EV[,7]<-Results3[,1][which(Results3[,2]=="p4_apNeh_iX_aX_v0(8)")]
+Cap_EV[,8]<-Results3[,1][which(Results3[,2]=="p4_apNeh_iX_aX_v0(20)")]
+Cap_EV[,9]<-Results3[,1][which(Results3[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(Cap_EV)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+Import_grid<-matrix(0,8760,9)
+Import_grid[,1]<-Results4[,1][which(Results4[,2]=="p1_apNeh_iM_aM_v0(7)")]
+Import_grid[,2]<-Results4[,1][which(Results4[,2]=="p1_apNeh_iM_aM_v0(13)")]
+Import_grid[,3]<-Results4[,1][which(Results4[,2]=="p1_apNeh_iM_aM_v0(19)")]
+Import_grid[,4]<-Results4[,1][which(Results4[,2]=="p2_apNeh_iX_aX_v0(1)")]
+Import_grid[,5]<-Results4[,1][which(Results4[,2]=="p2_apNeh_iX_aX_v0(5)")]
+Import_grid[,6]<-Results4[,1][which(Results4[,2]=="p2_apNeh_iX_aX_v0(7)")]
+Import_grid[,7]<-Results4[,1][which(Results4[,2]=="p4_apNeh_iX_aX_v0(8)")]
+Import_grid[,8]<-Results4[,1][which(Results4[,2]=="p4_apNeh_iX_aX_v0(20)")]
+Import_grid[,9]<-Results4[,1][which(Results4[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(Import_grid)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+export_grid<-matrix(0,8760,9)
+export_grid[,1]<-Results5[,1][which(Results5[,2]=="p1_apNeh_iM_aM_v0(7)")]
+export_grid[,2]<-Results5[,1][which(Results5[,2]=="p1_apNeh_iM_aM_v0(13)")]
+export_grid[,3]<-Results5[,1][which(Results5[,2]=="p1_apNeh_iM_aM_v0(19)")]
+export_grid[,4]<-Results5[,1][which(Results5[,2]=="p2_apNeh_iX_aX_v0(1)")]
+export_grid[,5]<-Results5[,1][which(Results5[,2]=="p2_apNeh_iX_aX_v0(5)")]
+export_grid[,6]<-Results5[,1][which(Results5[,2]=="p2_apNeh_iX_aX_v0(7)")]
+export_grid[,7]<-Results5[,1][which(Results5[,2]=="p4_apNeh_iX_aX_v0(8)")]
+export_grid[,8]<-Results5[,1][which(Results5[,2]=="p4_apNeh_iX_aX_v0(20)")]
+export_grid[,9]<-Results5[,1][which(Results5[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(export_grid)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+import_to_ev<-matrix(0,8760,9)
+import_to_ev[,1]<-Results6[,1][which(Results6[,2]=="p1_apNeh_iM_aM_v0(7)")]
+import_to_ev[,2]<-Results6[,1][which(Results6[,2]=="p1_apNeh_iM_aM_v0(13)")]
+import_to_ev[,3]<-Results6[,1][which(Results6[,2]=="p1_apNeh_iM_aM_v0(19)")]
+import_to_ev[,4]<-Results6[,1][which(Results6[,2]=="p2_apNeh_iX_aX_v0(1)")]
+import_to_ev[,5]<-Results6[,1][which(Results6[,2]=="p2_apNeh_iX_aX_v0(5)")]
+import_to_ev[,6]<-Results6[,1][which(Results6[,2]=="p2_apNeh_iX_aX_v0(7)")]
+import_to_ev[,7]<-Results6[,1][which(Results6[,2]=="p4_apNeh_iX_aX_v0(8)")]
+import_to_ev[,8]<-Results6[,1][which(Results6[,2]=="p4_apNeh_iX_aX_v0(20)")]
+import_to_ev[,9]<-Results6[,1][which(Results6[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(import_to_ev)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+import_to_bt<-matrix(0,8760,9)
+import_to_bt[,1]<-Results7[,1][which(Results7[,2]=="p1_apNeh_iM_aM_v0(7)")]
+import_to_bt[,2]<-Results7[,1][which(Results7[,2]=="p1_apNeh_iM_aM_v0(13)")]
+import_to_bt[,3]<-Results7[,1][which(Results7[,2]=="p1_apNeh_iM_aM_v0(19)")]
+import_to_bt[,4]<-Results7[,1][which(Results7[,2]=="p2_apNeh_iX_aX_v0(1)")]
+import_to_bt[,5]<-Results7[,1][which(Results7[,2]=="p2_apNeh_iX_aX_v0(5)")]
+import_to_bt[,6]<-Results7[,1][which(Results7[,2]=="p2_apNeh_iX_aX_v0(7)")]
+import_to_bt[,7]<-Results7[,1][which(Results7[,2]=="p4_apNeh_iX_aX_v0(8)")]
+import_to_bt[,8]<-Results7[,1][which(Results7[,2]=="p4_apNeh_iX_aX_v0(20)")]
+import_to_bt[,9]<-Results7[,1][which(Results7[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(import_to_bt)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+import_to_load<-matrix(0,8760,9)
+import_to_load[,1]<-Results8[,1][which(Results8[,2]=="p1_apNeh_iM_aM_v0(7)")]
+import_to_load[,2]<-Results8[,1][which(Results8[,2]=="p1_apNeh_iM_aM_v0(13)")]
+import_to_load[,3]<-Results8[,1][which(Results8[,2]=="p1_apNeh_iM_aM_v0(19)")]
+import_to_load[,4]<-Results8[,1][which(Results8[,2]=="p2_apNeh_iX_aX_v0(1)")]
+import_to_load[,5]<-Results8[,1][which(Results8[,2]=="p2_apNeh_iX_aX_v0(5)")]
+import_to_load[,6]<-Results8[,1][which(Results8[,2]=="p2_apNeh_iX_aX_v0(7)")]
+import_to_load[,7]<-Results8[,1][which(Results8[,2]=="p4_apNeh_iX_aX_v0(8)")]
+import_to_load[,8]<-Results8[,1][which(Results8[,2]=="p4_apNeh_iX_aX_v0(20)")]
+import_to_load[,9]<-Results8[,1][which(Results8[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(import_to_load)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+PV_prod<-matrix(0,8760,9)
+PV_prod[,1]<-Results9[,1][which(Results9[,2]=="p1_apNeh_iM_aM_v0(7)")]
+PV_prod[,2]<-Results9[,1][which(Results9[,2]=="p1_apNeh_iM_aM_v0(13)")]
+PV_prod[,3]<-Results9[,1][which(Results9[,2]=="p1_apNeh_iM_aM_v0(19)")]
+PV_prod[,4]<-Results9[,1][which(Results9[,2]=="p2_apNeh_iX_aX_v0(1)")]
+PV_prod[,5]<-Results9[,1][which(Results9[,2]=="p2_apNeh_iX_aX_v0(5)")]
+PV_prod[,6]<-Results9[,1][which(Results9[,2]=="p2_apNeh_iX_aX_v0(7)")]
+PV_prod[,7]<-Results9[,1][which(Results9[,2]=="p4_apNeh_iX_aX_v0(8)")]
+PV_prod[,8]<-Results9[,1][which(Results9[,2]=="p4_apNeh_iX_aX_v0(20)")]
+PV_prod[,9]<-Results9[,1][which(Results9[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(PV_prod)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+PV_to_ev<-matrix(0,8760,9)
+PV_to_ev[,1]<-Results10[,1][which(Results10[,2]=="p1_apNeh_iM_aM_v0(7)")]
+PV_to_ev[,2]<-Results10[,1][which(Results10[,2]=="p1_apNeh_iM_aM_v0(13)")]
+PV_to_ev[,3]<-Results10[,1][which(Results10[,2]=="p1_apNeh_iM_aM_v0(19)")]
+PV_to_ev[,4]<-Results10[,1][which(Results10[,2]=="p2_apNeh_iX_aX_v0(1)")]
+PV_to_ev[,5]<-Results10[,1][which(Results10[,2]=="p2_apNeh_iX_aX_v0(5)")]
+PV_to_ev[,6]<-Results10[,1][which(Results10[,2]=="p2_apNeh_iX_aX_v0(7)")]
+PV_to_ev[,7]<-Results10[,1][which(Results10[,2]=="p4_apNeh_iX_aX_v0(8)")]
+PV_to_ev[,8]<-Results10[,1][which(Results10[,2]=="p4_apNeh_iX_aX_v0(20)")]
+PV_to_ev[,9]<-Results10[,1][which(Results10[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(PV_to_ev)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+PV_to_bt<-matrix(0,8760,9)
+PV_to_bt[,1]<-Results11[,1][which(Results11[,2]=="p1_apNeh_iM_aM_v0(7)")]
+PV_to_bt[,2]<-Results11[,1][which(Results11[,2]=="p1_apNeh_iM_aM_v0(13)")]
+PV_to_bt[,3]<-Results11[,1][which(Results11[,2]=="p1_apNeh_iM_aM_v0(19)")]
+PV_to_bt[,4]<-Results11[,1][which(Results11[,2]=="p2_apNeh_iX_aX_v0(1)")]
+PV_to_bt[,5]<-Results11[,1][which(Results11[,2]=="p2_apNeh_iX_aX_v0(5)")]
+PV_to_bt[,6]<-Results11[,1][which(Results11[,2]=="p2_apNeh_iX_aX_v0(7)")]
+PV_to_bt[,7]<-Results11[,1][which(Results11[,2]=="p4_apNeh_iX_aX_v0(8)")]
+PV_to_bt[,8]<-Results11[,1][which(Results11[,2]=="p4_apNeh_iX_aX_v0(20)")]
+PV_to_bt[,9]<-Results11[,1][which(Results11[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(PV_to_bt)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+PV_to_load<-matrix(0,8760,9)
+PV_to_load[,1]<-Results12[,1][which(Results12[,2]=="p1_apNeh_iM_aM_v0(7)")]
+PV_to_load[,2]<-Results12[,1][which(Results12[,2]=="p1_apNeh_iM_aM_v0(13)")]
+PV_to_load[,3]<-Results12[,1][which(Results12[,2]=="p1_apNeh_iM_aM_v0(19)")]
+PV_to_load[,4]<-Results12[,1][which(Results12[,2]=="p2_apNeh_iX_aX_v0(1)")]
+PV_to_load[,5]<-Results12[,1][which(Results12[,2]=="p2_apNeh_iX_aX_v0(5)")]
+PV_to_load[,6]<-Results12[,1][which(Results12[,2]=="p2_apNeh_iX_aX_v0(7)")]
+PV_to_load[,7]<-Results12[,1][which(Results12[,2]=="p4_apNeh_iX_aX_v0(8)")]
+PV_to_load[,8]<-Results12[,1][which(Results12[,2]=="p4_apNeh_iX_aX_v0(20)")]
+PV_to_load[,9]<-Results12[,1][which(Results12[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(PV_to_load)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+PV_to_export<-matrix(0,8760,9)
+PV_to_export[,1]<-Results13[,1][which(Results13[,2]=="p1_apNeh_iM_aM_v0(7)")]
+PV_to_export[,2]<-Results13[,1][which(Results13[,2]=="p1_apNeh_iM_aM_v0(13)")]
+PV_to_export[,3]<-Results13[,1][which(Results13[,2]=="p1_apNeh_iM_aM_v0(19)")]
+PV_to_export[,4]<-Results13[,1][which(Results13[,2]=="p2_apNeh_iX_aX_v0(1)")]
+PV_to_export[,5]<-Results13[,1][which(Results13[,2]=="p2_apNeh_iX_aX_v0(5)")]
+PV_to_export[,6]<-Results13[,1][which(Results13[,2]=="p2_apNeh_iX_aX_v0(7)")]
+PV_to_export[,7]<-Results13[,1][which(Results13[,2]=="p4_apNeh_iX_aX_v0(8)")]
+PV_to_export[,8]<-Results13[,1][which(Results13[,2]=="p4_apNeh_iX_aX_v0(20)")]
+PV_to_export[,9]<-Results13[,1][which(Results13[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(PV_to_export)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+BT_charge<-matrix(0,8760,9)
+BT_charge[,1]<-Results14[,1][which(Results14[,2]=="p1_apNeh_iM_aM_v0(7)")]
+BT_charge[,2]<-Results14[,1][which(Results14[,2]=="p1_apNeh_iM_aM_v0(13)")]
+BT_charge[,3]<-Results14[,1][which(Results14[,2]=="p1_apNeh_iM_aM_v0(19)")]
+BT_charge[,4]<-Results14[,1][which(Results14[,2]=="p2_apNeh_iX_aX_v0(1)")]
+BT_charge[,5]<-Results14[,1][which(Results14[,2]=="p2_apNeh_iX_aX_v0(5)")]
+BT_charge[,6]<-Results14[,1][which(Results14[,2]=="p2_apNeh_iX_aX_v0(7)")]
+BT_charge[,7]<-Results14[,1][which(Results14[,2]=="p4_apNeh_iX_aX_v0(8)")]
+BT_charge[,8]<-Results14[,1][which(Results14[,2]=="p4_apNeh_iX_aX_v0(20)")]
+BT_charge[,9]<-Results14[,1][which(Results14[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(BT_charge)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+BT_discharge<-matrix(0,8760,9)
+BT_discharge[,1]<-Results15[,1][which(Results15[,2]=="p1_apNeh_iM_aM_v0(7)")]
+BT_discharge[,2]<-Results15[,1][which(Results15[,2]=="p1_apNeh_iM_aM_v0(13)")]
+BT_discharge[,3]<-Results15[,1][which(Results15[,2]=="p1_apNeh_iM_aM_v0(19)")]
+BT_discharge[,4]<-Results15[,1][which(Results15[,2]=="p2_apNeh_iX_aX_v0(1)")]
+BT_discharge[,5]<-Results15[,1][which(Results15[,2]=="p2_apNeh_iX_aX_v0(5)")]
+BT_discharge[,6]<-Results15[,1][which(Results15[,2]=="p2_apNeh_iX_aX_v0(7)")]
+BT_discharge[,7]<-Results15[,1][which(Results15[,2]=="p4_apNeh_iX_aX_v0(8)")]
+BT_discharge[,8]<-Results15[,1][which(Results15[,2]=="p4_apNeh_iX_aX_v0(20)")]
+BT_discharge[,9]<-Results15[,1][which(Results15[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(BT_discharge)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+BT_state<-matrix(0,8760,9)
+BT_state[,1]<-Results16[,1][which(Results16[,2]=="p1_apNeh_iM_aM_v0(7)")]
+BT_state[,2]<-Results16[,1][which(Results16[,2]=="p1_apNeh_iM_aM_v0(13)")]
+BT_state[,3]<-Results16[,1][which(Results16[,2]=="p1_apNeh_iM_aM_v0(19)")]
+BT_state[,4]<-Results16[,1][which(Results16[,2]=="p2_apNeh_iX_aX_v0(1)")]
+BT_state[,5]<-Results16[,1][which(Results16[,2]=="p2_apNeh_iX_aX_v0(5)")]
+BT_state[,6]<-Results16[,1][which(Results16[,2]=="p2_apNeh_iX_aX_v0(7)")]
+BT_state[,7]<-Results16[,1][which(Results16[,2]=="p4_apNeh_iX_aX_v0(8)")]
+BT_state[,8]<-Results16[,1][which(Results16[,2]=="p4_apNeh_iX_aX_v0(20)")]
+BT_state[,9]<-Results16[,1][which(Results16[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(BT_state)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+BT_to_export<-matrix(0,8760,9)
+BT_to_export[,1]<-Results17[,1][which(Results17[,2]=="p1_apNeh_iM_aM_v0(7)")]
+BT_to_export[,2]<-Results17[,1][which(Results17[,2]=="p1_apNeh_iM_aM_v0(13)")]
+BT_to_export[,3]<-Results17[,1][which(Results17[,2]=="p1_apNeh_iM_aM_v0(19)")]
+BT_to_export[,4]<-Results17[,1][which(Results17[,2]=="p2_apNeh_iX_aX_v0(1)")]
+BT_to_export[,5]<-Results17[,1][which(Results17[,2]=="p2_apNeh_iX_aX_v0(5)")]
+BT_to_export[,6]<-Results17[,1][which(Results17[,2]=="p2_apNeh_iX_aX_v0(7)")]
+BT_to_export[,7]<-Results17[,1][which(Results17[,2]=="p4_apNeh_iX_aX_v0(8)")]
+BT_to_export[,8]<-Results17[,1][which(Results17[,2]=="p4_apNeh_iX_aX_v0(20)")]
+BT_to_export[,9]<-Results17[,1][which(Results17[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(BT_to_export)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+BT_to_ev<-matrix(0,8760,9)
+BT_to_ev[,1]<-Results18[,1][which(Results18[,2]=="p1_apNeh_iM_aM_v0(7)")]
+BT_to_ev[,2]<-Results18[,1][which(Results18[,2]=="p1_apNeh_iM_aM_v0(13)")]
+BT_to_ev[,3]<-Results18[,1][which(Results18[,2]=="p1_apNeh_iM_aM_v0(19)")]
+BT_to_ev[,4]<-Results18[,1][which(Results18[,2]=="p2_apNeh_iX_aX_v0(1)")]
+BT_to_ev[,5]<-Results18[,1][which(Results18[,2]=="p2_apNeh_iX_aX_v0(5)")]
+BT_to_ev[,6]<-Results18[,1][which(Results18[,2]=="p2_apNeh_iX_aX_v0(7)")]
+BT_to_ev[,7]<-Results18[,1][which(Results18[,2]=="p4_apNeh_iX_aX_v0(8)")]
+BT_to_ev[,8]<-Results18[,1][which(Results18[,2]=="p4_apNeh_iX_aX_v0(20)")]
+BT_to_ev[,9]<-Results18[,1][which(Results18[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(BT_to_ev)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+BT_to_load<-matrix(0,8760,9)
+BT_to_load[,1]<-Results19[,1][which(Results19[,2]=="p1_apNeh_iM_aM_v0(7)")]
+BT_to_load[,2]<-Results19[,1][which(Results19[,2]=="p1_apNeh_iM_aM_v0(13)")]
+BT_to_load[,3]<-Results19[,1][which(Results19[,2]=="p1_apNeh_iM_aM_v0(19)")]
+BT_to_load[,4]<-Results19[,1][which(Results19[,2]=="p2_apNeh_iX_aX_v0(1)")]
+BT_to_load[,5]<-Results19[,1][which(Results19[,2]=="p2_apNeh_iX_aX_v0(5)")]
+BT_to_load[,6]<-Results19[,1][which(Results19[,2]=="p2_apNeh_iX_aX_v0(7)")]
+BT_to_load[,7]<-Results19[,1][which(Results19[,2]=="p4_apNeh_iX_aX_v0(8)")]
+BT_to_load[,8]<-Results19[,1][which(Results19[,2]=="p4_apNeh_iX_aX_v0(20)")]
+BT_to_load[,9]<-Results19[,1][which(Results19[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(BT_to_load)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+EV_charge<-matrix(0,8760,9)
+EV_charge[,1]<-Results20[,1][which(Results20[,2]=="p1_apNeh_iM_aM_v0(7)")]
+EV_charge[,2]<-Results20[,1][which(Results20[,2]=="p1_apNeh_iM_aM_v0(13)")]
+EV_charge[,3]<-Results20[,1][which(Results20[,2]=="p1_apNeh_iM_aM_v0(19)")]
+EV_charge[,4]<-Results20[,1][which(Results20[,2]=="p2_apNeh_iX_aX_v0(1)")]
+EV_charge[,5]<-Results20[,1][which(Results20[,2]=="p2_apNeh_iX_aX_v0(5)")]
+EV_charge[,6]<-Results20[,1][which(Results20[,2]=="p2_apNeh_iX_aX_v0(7)")]
+EV_charge[,7]<-Results20[,1][which(Results20[,2]=="p4_apNeh_iX_aX_v0(8)")]
+EV_charge[,8]<-Results20[,1][which(Results20[,2]=="p4_apNeh_iX_aX_v0(20)")]
+EV_charge[,9]<-Results20[,1][which(Results20[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(EV_charge)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+EV_discharge<-matrix(0,8760,9)
+EV_discharge[,1]<-Results21[,1][which(Results21[,2]=="p1_apNeh_iM_aM_v0(7)")]
+EV_discharge[,2]<-Results21[,1][which(Results21[,2]=="p1_apNeh_iM_aM_v0(13)")]
+EV_discharge[,3]<-Results21[,1][which(Results21[,2]=="p1_apNeh_iM_aM_v0(19)")]
+EV_discharge[,4]<-Results21[,1][which(Results21[,2]=="p2_apNeh_iX_aX_v0(1)")]
+EV_discharge[,5]<-Results21[,1][which(Results21[,2]=="p2_apNeh_iX_aX_v0(5)")]
+EV_discharge[,6]<-Results21[,1][which(Results21[,2]=="p2_apNeh_iX_aX_v0(7)")]
+EV_discharge[,7]<-Results21[,1][which(Results21[,2]=="p4_apNeh_iX_aX_v0(8)")]
+EV_discharge[,8]<-Results21[,1][which(Results21[,2]=="p4_apNeh_iX_aX_v0(20)")]
+EV_discharge[,9]<-Results21[,1][which(Results21[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(EV_discharge)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+
+EV_state<-matrix(0,8760,9)
+EV_state[,1]<-Results22[,1][which(Results22[,2]=="p1_apNeh_iM_aM_v0(7)")]
+EV_state[,2]<-Results22[,1][which(Results22[,2]=="p1_apNeh_iM_aM_v0(13)")]
+EV_state[,3]<-Results22[,1][which(Results22[,2]=="p1_apNeh_iM_aM_v0(19)")]
+EV_state[,4]<-Results22[,1][which(Results22[,2]=="p2_apNeh_iX_aX_v0(1)")]
+EV_state[,5]<-Results22[,1][which(Results22[,2]=="p2_apNeh_iX_aX_v0(5)")]
+EV_state[,6]<-Results22[,1][which(Results22[,2]=="p2_apNeh_iX_aX_v0(7)")]
+EV_state[,7]<-Results22[,1][which(Results22[,2]=="p4_apNeh_iX_aX_v0(8)")]
+EV_state[,8]<-Results22[,1][which(Results22[,2]=="p4_apNeh_iX_aX_v0(20)")]
+EV_state[,9]<-Results22[,1][which(Results22[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(EV_state)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+EV_to_export<-matrix(0,8760,9)
+EV_to_export[,1]<-Results23[,1][which(Results23[,2]=="p1_apNeh_iM_aM_v0(7)")]
+EV_to_export[,2]<-Results23[,1][which(Results23[,2]=="p1_apNeh_iM_aM_v0(13)")]
+EV_to_export[,3]<-Results23[,1][which(Results23[,2]=="p1_apNeh_iM_aM_v0(19)")]
+EV_to_export[,4]<-Results23[,1][which(Results23[,2]=="p2_apNeh_iX_aX_v0(1)")]
+EV_to_export[,5]<-Results23[,1][which(Results23[,2]=="p2_apNeh_iX_aX_v0(5)")]
+EV_to_export[,6]<-Results23[,1][which(Results23[,2]=="p2_apNeh_iX_aX_v0(7)")]
+EV_to_export[,7]<-Results23[,1][which(Results23[,2]=="p4_apNeh_iX_aX_v0(8)")]
+EV_to_export[,8]<-Results23[,1][which(Results23[,2]=="p4_apNeh_iX_aX_v0(20)")]
+EV_to_export[,9]<-Results23[,1][which(Results23[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(EV_to_export)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")
+EV_to_load<-matrix(0,8760,9)
+EV_to_load[,1]<-Results24[,1][which(Results24[,2]=="p1_apNeh_iM_aM_v0(7)")]
+EV_to_load[,2]<-Results24[,1][which(Results24[,2]=="p1_apNeh_iM_aM_v0(13)")]
+EV_to_load[,3]<-Results24[,1][which(Results24[,2]=="p1_apNeh_iM_aM_v0(19)")]
+EV_to_load[,4]<-Results24[,1][which(Results24[,2]=="p2_apNeh_iX_aX_v0(1)")]
+EV_to_load[,5]<-Results24[,1][which(Results24[,2]=="p2_apNeh_iX_aX_v0(5)")]
+EV_to_load[,6]<-Results24[,1][which(Results24[,2]=="p2_apNeh_iX_aX_v0(7)")]
+EV_to_load[,7]<-Results24[,1][which(Results24[,2]=="p4_apNeh_iX_aX_v0(8)")]
+EV_to_load[,8]<-Results24[,1][which(Results24[,2]=="p4_apNeh_iX_aX_v0(20)")]
+EV_to_load[,9]<-Results24[,1][which(Results24[,2]=="p4_apNeh_iX_aX_v0(11)")]
+colnames(EV_to_load)<-c("p1_apNeh_iM_aM_v0(7)","p1_apNeh_iM_aM_v0(13)","p1_apNeh_iM_aM_v0(19)",
+                       "p2_apNeh_iX_aX_v0(1)","p2_apNeh_iX_aX_v0(5)","p2_apNeh_iX_aX_v0(7)",
+                       "p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)","p4_apNeh_iX_aX_v0(8)")

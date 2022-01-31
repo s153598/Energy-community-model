@@ -1,0 +1,11 @@
+Parameter,Value
+Capital_cost,1042
+OM_cost,0.002
+OP_cost,0.001
+Charging_eff,0.98
+Discharging_eff,0.97
+Charging_lim,01
+Discharging_lim,0.5
+Min_charge,0.1
+Max_charge,0.9
+Lifetime,20
